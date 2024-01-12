@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<style>
+
+
+
+  </style>
+<body>
+
+<div class="section-title">
+    <h3>Watch History</h3></div>
+
+
+<div class="img-slider__container-1">
+    {% for movie in recent_movies %}
+            <div class="img-items">
+                <div class="card" style="width: 200px; height: 350px; overflow: hidden;">
+                    <a href="{% url 'home' %}view_movie/{{ movie.watched_movie_id }}"> <!-- Replace "/your-link-here" with the actual URL -->
+                        <img class="card-img-top" src="/media/{{ movie.watched_movie.post_image }}" alt="{{ movie.watched_movie.title }}" style="width: 100%; height: auto;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.watched_movie.title }}</h5>
+                    </div>
+                </div>
+            </div>
+
+    {% endfor %}
+</div>
+
+</body>
+</html>

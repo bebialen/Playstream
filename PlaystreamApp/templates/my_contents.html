@@ -1,0 +1,117 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Movie Page
+{% endblock %}
+
+{% block style %}
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #000;
+  color: #999;
+}
+
+    .section-title {
+        margin-bottom: 30px;
+    }
+
+    .section-title h3 {
+        color: #ffffff;
+        font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+    }
+
+    .section-title h3::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+
+    .card {
+    width: 100%;
+    max-width: 250px; /* Adjust the maximum width as needed */
+}
+
+.card .card-img-top {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop and scale the image to cover the card */
+    max-height: 300px; /* Set a maximum height for the image */
+}
+
+.card .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+{% if request.user.is_authenticated %}
+
+
+<div class="container mt-3">
+    <div class="section-title">
+        <h3>Movies</h3>
+    </div>
+    <div class="row">
+        {% if movies %}
+            {% for movie in movies %}
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="/media/{{ movie.post_image }}" alt="{{ movie.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <a href="{% url 'home' %}view_movie/{{ movie.id }}" class="btn btn-secondary">Edit Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You didn't add any contents in this category.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="container mt-3">
+    <div class="section-title">
+        <h3>Series</h3>
+    </div>
+    <div class="row">
+        {% if series %}
+            {% for series_item in series %}
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="/media/{{ series_item.poster_image }}" alt="{{ series_item.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ series_item.title }}</h5>
+                            <a href="{% url 'view_series' series_item.id %}" class="btn btn-secondary">Edit Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You didn't add any contents in this category.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

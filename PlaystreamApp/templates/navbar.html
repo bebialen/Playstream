@@ -1,0 +1,235 @@
+<style>
+    	#mainNavigation a {
+      font-family: 'Cabin', sans-serif;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      text-shadow:1px 1px 2px rgba(0,0,0,0.4)
+    }
+
+    .dropdown-menu {
+      background:#03727d
+    }
+    a.dropdown-toggle {
+      color:#dfdfdf !important
+    }
+    a.dropdown-item:hover {
+      color:#03727d !important
+    }
+    .nav-item a{
+      color:#dfdfdf;
+    }
+    .nav-item a:hover {
+      color:#fff
+    }
+    .nav-item{
+      min-width:10vw;
+    }
+    #mainNavigation {
+      position:;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:123;
+      padding-bottom:120px;
+      /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#000000+0,000000+100&0.65+0,0+100;Neutral+Density */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+    }
+    #navbarNavDropdown.collapsing .navbar-nav,
+    #navbarNavDropdown.show .navbar-nav{
+      background:#037582;
+      padding:12px;
+    }
+
+    .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background-color: black;
+            transition: background-color 0.3s ease; /* Smooth transition for background color */
+        }
+
+        .navbar.transparent {
+            background-color: rgba(0, 0, 0, 0); /* Transparent background initially */
+        }
+
+        .navbar-brand img {
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px 0px white; /* White border shadow */
+        }
+
+        .navbar-brand small span {
+            text-shadow: 0px 0px 20px white; /* White border shadow around letters */
+        }
+
+        /* Content padding to prevent it from being hidden under the fixed navbar */
+        body {
+            padding-top: 60px;
+        }
+
+      .custom-span {
+    position: absolute;
+    right: 70px; /* Adjust the value as needed */
+    margin-right: 0; /* Adjust the value as needed */
+}
+
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-image: url('{% if request.user.userprofile.profile_photo %}{{ request.user.userprofile.profile_photo.url }}{% else %}https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png{% endif %}');
+}
+
+</style>
+
+
+	<nav class="navbar navbar-light bg-black">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+          <img src="https://t4.ftcdn.net/jpg/03/70/68/73/240_F_370687345_GR94RBP13MQz9bCv7NPrR9ZXyS9SIKVP.jpg"
+              style="max-width: 50px; height: auto;" alt="Logo" loading="lazy" />
+          <small>
+              <span style="color: red;">P</span>
+              <span style="color: green;">r</span>
+              <span style="color: blue;">i</span>
+              <span style="color: orange;">m</span>
+              <span style="color: purple;">e</span>
+              <span style="color: pink;"> </span>
+              <span style="color: brown;">V</span>
+              <span style="color: teal;">i</span>
+              <span style="color: maroon;">d</span>
+              <span style="color: navy;">e</span>
+              <span style="color: magenta;">o</span>
+          </small>
+      </a>
+
+    {% if request.user.is_authenticated %}
+            <div class="profile-picture"></div>
+    <span class="navbar-text custom-span">
+    <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   Welcome {{ request.user.username }}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'password_change' %}">Password Change</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                 </ul>
+              </li>
+       </span>
+    {% endif %}
+  </div>
+</nav>
+
+ {% if request.user.is_authenticated %}
+    <div id="mainNavigation" >
+      <div class="navbar-expand-md">
+        <div class="navbar-dark text-center my-2">
+          <button class="navbar-toggler w-75" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
+          </button>
+        </div>
+        <div class="text-center mt-3 collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mx-auto ">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+              {% if request.user.is_staff %}
+              <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'admin' %}">Admin</a>
+            </li>
+              {% endif %}
+
+             {% if user.groups.all.0.name == "contents" %}
+               <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'my_contents' %}">My Contents&nbsp&nbsp&nbsp</a>
+            </li>
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Add Contents
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="{% url 'create_movie' %}">Add Movies</a></li>
+                <li><a class="dropdown-item" href="{% url 'create_series' %}">Add Series</a></li>
+                 </ul>
+              </li>
+
+              {% endif %}
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'movie' %}">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'series_list' %}">Series</a>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Company
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Blog</a></li>
+                <li><a class="dropdown-item" href="{% url 'about_us' %}">About Us</a></li>
+                <li><a class="dropdown-item" href="#">Contact us</a></li>
+                 </ul>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+{% else %}
+
+<div id="mainNavigation" >
+      <div class="navbar-expand-md">
+        <div class="navbar-dark text-center my-2">
+          <button class="navbar-toggler w-75" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span> <span class="align-middle">Menu</span>
+          </button>
+        </div>
+        <div class="text-center mt-3 collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mx-auto ">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'movie' %}">Movies</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'series_list' %}">Series</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Company
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Blog</a></li>
+                <li><a class="dropdown-item" href="{% url 'about_us' %}">About Us</a></li>
+                <li><a class="dropdown-item" href="#">Contact us</a></li>
+                 </ul>
+                <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Sign Up
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="{% url 'register' %}">Register as Subscriber</a></li>
+                <li><a class="dropdown-item" href="{% url 'register_content' %}">Register as Content Creator</a></li>
+                 </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+{% endif %}
+

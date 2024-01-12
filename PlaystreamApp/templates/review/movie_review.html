@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Reviews</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-review,
+        .review {
+            background-color: #333;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .user-review button,
+        .review button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% if user_review %}
+        <!-- Display the user's review -->
+        <div class="user-review">
+            <h4>Your Review</h4>
+            <div class="review">
+                <p><strong>Rating:</strong> {{ user_review.rating }}</p>
+                <p><strong>Review:</strong> {{ user_review.review_text }}</p>
+                <a href="{% url 'edit_review' movie_id=user_review.movie.id %}">
+                    <button type="button">Edit Review</button>
+                </a>
+                <a href="{% url 'delete_review' movie_id=user_review.movie.id %}">
+                    <button type="button">Delete Review</button>
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <p>No review given by the current user.</p>
+        {% endif %}
+
+        <!-- Display all reviews for the movie -->
+        <div class="all-reviews">
+            <h4>All Reviews</h4>
+            {% for review in all_reviews %}
+            <div class="review">
+                <p><strong>User:</strong> {{ review.user.username }}</p>
+                <p><strong>Rating:</strong> {{ review.rating }}</p>
+                <p><strong>Review:</strong> {{ review.review_text }}</p>
+            </div>
+            {% empty %}
+            <p>No reviews available for this movie.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

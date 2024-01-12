@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+<body>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500&display=swap');
+
+body {
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-image: url('https://images4.alphacoders.com/132/1323467.png'); /* Replace 'your-image-url.jpg' with the actual path to your image */
+  background-size: cover; /* Adjust the sizing of the background image */
+  background-repeat: no-repeat; /* Prevent the background image from repeating */
+  background-color: #000; /* Fallback background color */
+  color: #999;
+}
+
+
+/* Add padding to container elements */
+.container {
+    padding: 20px;
+    width: 500px;
+    margin: 50px auto 0; /* Add margin-top: 50px to move the container down from the top */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8); /* Adjust the alpha value (0.8) to control opacity */
+    -webkit-box-shadow: 2px 1px 21px -9px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: 2px 1px 21px -9px rgba(0, 0, 0, 0.38);
+    box-shadow: 2px 1px 21px -9px rgba(0, 0, 0, 0.38);
+}
+
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: rgba(247, 247, 247, 0.9); /* Adjust the alpha value (0.8) to control opacity */
+    font-family: Montserrat, Arial, Helvetica, sans-serif;
+}
+
+select {
+  width: 18%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f7f7f7;
+	font-family: Montserrat,Arial, Helvetica, sans-serif;
+}
+
+input[type=phone] {
+  width: 81%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f7f7f7;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=phone]:focus, select:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+
+/* Set a style for all buttons */
+button {
+  background-color: #0eb7f4;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+	font-size:16px;
+	font-family: Montserrat,Arial, Helvetica, sans-serif;
+	border-radius:10px;
+}
+
+button:hover {
+  opacity:1;
+}
+
+
+/* Change styles for signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .signupbtn {
+     width: 100%;
+  }
+}
+
+
+ .section-title h1 {
+    color: var(--primary-color);
+    font-weight: 600;
+    line-height: 21px;
+    text-transform: uppercase;
+    padding-left: 20px;
+    position: relative;
+    font-family: "Oswald", sans-serif;
+}
+
+    .section-title h1::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<body>
+<form method="post" action="{% url 'register_content' %}">
+  {% csrf_token %}
+  <div class="container">
+    <div class="section-title">
+      <h1 class="text-primary">Sign Up</h1>
+    </div>
+    </br>
+    </br>
+    <p>Please fill in this form to create an account.</p>
+
+    <label for="id_username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id="id_username" required>
+
+    {% if user_reg_form.username.errors %}
+    <div class="error-message">
+        {{ user_reg_form.username.errors }}
+    </div>
+    {% endif %}
+
+    <label for="id_first_name"><b>First Name</b></label>
+    <input type="text" placeholder="Enter Name" name="first_name" id="id_first_name" required>
+
+    <label for="id_email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" id="id_email">
+
+    <label for="id_password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" id="id_password" required>
+
+    <label for="id_password2"><b>Confirm Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password2" id="id_password2" required>
+
+    {% if user_reg_form.password2.errors %}
+<div class="error-message">
+    {{ user_reg_form.password2.errors }}
+</div>
+{% endif %}
+
+    <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+    <div class="clearfix">
+      <button type="submit" class="btn btn-danger">Sign Up</button>
+      <a href="{% url 'home' %}">
+        <button type="button" class="btn btn-success">Back Home</button>
+      </a>
+    </div>
+  </div>
+</form>
+
+
+</body>
+</html>

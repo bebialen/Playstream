@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Watchlist
+{% endblock %}
+{% block body %}
+<style>
+
+    .section-title {
+        margin-bottom: 30px;
+    }
+
+    .section-title h3 {
+        color: #ffffff;
+        font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+    }
+
+    .section-title h3::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+
+    .seven h3 {
+text-align: center;
+    font-size:30px; font-weight:300; color:#222; letter-spacing:1px;
+    text-transform: uppercase;
+
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+    color: #ffffff;
+       font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+}
+
+.seven h3:after,.seven h3:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid #c50000;
+    border-top: 1px solid #c50000;
+    height: 5px;
+  background-color:#e53637;
+}
+
+.card {
+    width: 100%;
+    max-width: 250px; /* Adjust the maximum width as needed */
+}
+
+.card .card-img-top {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop and scale the image to cover the card */
+    max-height: 300px; /* Set a maximum height for the image */
+}
+
+.card .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+</style>
+
+<div class="seven">
+    <h3>Your Watchlist</h3>
+</div>
+
+<div class="container mt-3">
+  <div class="section-title">
+    <h3>Movies</h3>
+  </div>
+
+  <div class="row">
+    {% if watchlist_items %}
+    {% for watchlist_item in watchlist_items %}
+    <div class="col-lg-3 col-md-4 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="/media/{{ watchlist_item.movie.post_image }}" alt="{{ watchlist_item.movie.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ watchlist_item.movie.title }}</h5>
+          <a href="{% url 'view_movie' watchlist_item.movie.id %}" class="btn btn-success">View Movie</a>
+          <a href="{% url 'remove_from_watchlist' watchlist_item.id %}" class="btn btn-secondary">Remove From Watchlist</a>
+        </div>
+      </div>
+    </div>
+    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+    </div><div class="row">
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <p>You have added no movies to your watchlist.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="section-title">
+    <h3>Series</h3>
+  </div>
+
+  <div class="row">
+    {% if watchlist_items2 %}
+    {% for watchlist_item2 in watchlist_items2 %}
+    <div class="col-lg-3 col-md-4 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="/media/{{ watchlist_item2.series.poster_image }}" alt="{{ watchlist_item2.series.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ watchlist_item2.series.title }}</h5>
+          <a href="{% url 'view_series' watchlist_item2.series.id %}" class="btn btn-success">View Series</a>
+          <a href="{% url 'remove_series_from_watchlist' watchlist_item2.id %}" class="btn btn-secondary">Remove From Watchlist</a>
+
+        </div>
+      </div>
+    </div>
+    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+    </div><div class="row">
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <p>You have added no series to your watchlist.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<style>
+
+
+  /* Add this CSS to your stylesheet */
+  .card {
+      width: 100%;
+      max-width: 250px; /* Adjust the maximum width as needed */
+  }
+
+  .card .card-img-top {
+      max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover; /* Crop and scale the image to cover the card */
+      max-height: 300px; /* Set a maximum height for the image */
+  }
+
+  .card .card-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+  }
+
+  </style>
+<body>
+
+
+<div class="section-title">
+    <h3>Watch History</h3></div>
+
+
+<div class="img-slider__container-1">
+         {% for episode in recent_episodes %}
+            <div class="img-items">
+                <div class="card" style="width: 200px; height: 350px; overflow: hidden;">
+                    <a href="{% url 'view_series' episode.watched_episode.season.series.id %}">
+
+  <!-- Your link content here -->
+                    <img class="card-img-top" src="/media/{{ episode.watched_episode.season.series.poster_image }}" alt="{{ episode.watched_episode.title }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ episode.watched_episode.title }}</h5>
+                        <p>Season {{ episode.watched_episode.season.season_number }}, Episode {{ episode.watched_episode.episode_number }}</p>
+
+                    </div>
+                </div>
+            </div>
+       {% empty %}
+            <div class="col">
+                <p>No recent episodes.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

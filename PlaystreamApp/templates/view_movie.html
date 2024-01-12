@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}
+View_Movie
+{% endblock %}
+
+{% block body %}
+
+<style>
+      body {
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #000;
+  color: #999;
+}
+
+.section-title {
+        margin-bottom: 30px;
+    }
+
+.section-title h3 {
+        color: #ffffff;
+        font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+    }
+
+.section-title h3::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+
+    /* Add this CSS to your stylesheet */
+.card {
+    width: 100%;
+    max-width: 250px; /* Adjust the maximum width as needed */
+}
+
+.card .card-img-top {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop and scale the image to cover the card */
+    max-height: 300px; /* Set a maximum height for the image */
+}
+
+.card .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+
+</style>
+    <div class="container" mt-3 >
+        <div class="row">
+                  <div class="col ">
+        <img width="200" src="{% url 'home' %}media/{{ view_movies.post_image}}"> <br/><br/>
+         </div>
+            <div class="col">
+        <iframe width="560" height="315" src="{{ view_movies.youtube_link }}" frameborder="0" allowfullscreen></iframe></div>
+                 <h3>{{ view_movies.title }}</h3>
+            <p>IMDB | 7.8 &nbsp; &nbsp;     Duration | 1:45:45</p>
+            <p>{{ view_movies.description }}</p>
+            <div class="container">
+    <a href="{% url 'movie' %}">
+        <button type="button" class="btn btn-success">Back to List</button>
+    </a>
+                {% if request.user.is_authenticated %}
+                <div class="btn-group ms-3">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Review
+                    </button>
+                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="{% url 'view_reviews' movie_id=view_movies.id %}">View Review</a></li>
+
+    <li><a class="dropdown-item" href="{% url 'add_review' movie_id=view_movies.id %}">Add Review</a></li>
+</ul>
+                </div>
+                {% endif %}
+                {% if view_movies.post_author == request.user %}
+    <a href="{% url 'home' %}edit/movie/{{ view_movies.id }}">
+
+        <button type="button" class="btn btn-secondary">Edit</button>
+    </a>
+    <button type="button" class="btn btn-danger" onclick="confirmDeleteMovie({{ view_movies.id }});">Delete</button>
+</div>
+        {% endif %}
+            </div>
+             <br/><br/>
+        {% if request.user.is_authenticated %}
+        <div class="container">
+                            <a href="{{ view_movies.youtube_link }}" class="btn btn-primary" style="width: 1120px;">Watch Movie</a>
+                        </div>
+
+
+
+        {% else %}
+         <div class="container">
+                            <a href="{% url 'register' %}" class="btn btn-primary" style="width: 1120px;">Subscribe to Watch Movie</a>
+                        </div>
+        {% endif %}
+
+
+
+    </div>
+</br>
+
+{% if not user.groups.all.0.name == "contents" %}
+
+
+   <div class="section-title">
+                <h3>Suggested Movies</h3>
+            </div>
+
+            <div class="row">
+    {% for movie in movies_with_same_genre %}
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="{{ movie.post_image.url }}" alt="{{ movie.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                    <a href="{% url 'home' %}view_movie/{{ movie.id }}" class="btn btn-primary">Watch Now</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+</div>
+
+
+<script>
+    function confirmDeleteMovie(movieId) {
+        if (confirm("Are you sure you want to delete this movie?")) {
+            // If the user confirms, navigate to the delete URL
+            window.location.href = "{% url 'home' %}delete/movie/" + movieId;
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User Login
+{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-3">
+        <h3>You Have been Successfully Registered</h3>
+        <a href="{% url 'home' %}"><button type="button" class="btn btn-success">Go to Home</button></a>
+      <a href="{% url 'login' %}"><button type="button" class="btn btn-success">Login Again</button></a>
+
+    </div>
+
+
+{% endblock %}

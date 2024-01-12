@@ -1,0 +1,542 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Movie Page
+{% endblock %}
+
+{% block style %}
+<style>
+{% load static %}
+  body {
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+    background-image: url("{% static 'images/wal3.jpg' %}");
+
+  background-size: cover;
+}
+
+    .section-title {
+        margin-bottom: 30px;
+    }
+
+    .section-title h3 {
+        color: #ffffff;
+        font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+    }
+
+    .section-title h3::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+
+    #carouselVideoExample {
+        width: 100%;
+        height: 300px; /* Adjust the height as needed */
+        position: relative;
+    }
+
+    @media (max-width: 767px) {
+        .carousel-inner .carousel-item > div {
+            display: none;
+        }
+        .carousel-inner .carousel-item > div:first-child {
+            display: block;
+        }
+    }
+
+    .carousel-inner .carousel-item.active,
+    .carousel-inner .carousel-item-next,
+    .carousel-inner .carousel-item-prev {
+        display: flex;
+    }
+
+    /* medium and up screens */
+    @media (min-width: 768px) {
+
+        .carousel-inner .carousel-item-end.active,
+        .carousel-inner .carousel-item-next {
+            transform: translateX(25%);
+        }
+
+        .carousel-inner .carousel-item-start.active,
+        .carousel-inner .carousel-item-prev {
+            transform: translateX(-25%);
+        }
+    }
+
+    .carousel-inner .carousel-item-end,
+    .carousel-inner .carousel-item-start {
+        transform: translateX(0);
+    }
+
+    /* Style 7
+   ----------------------------- */
+.seven h3 {
+text-align: center;
+    font-size:30px; font-weight:300; color:#222; letter-spacing:1px;
+    text-transform: uppercase;
+
+    display: grid;
+    grid-template-columns: 1fr max-content 1fr;
+    grid-template-rows: 27px 0;
+    grid-gap: 20px;
+    align-items: center;
+    color: #ffffff;
+       font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+}
+
+.seven h3:after,.seven h3:before {
+    content: " ";
+    display: block;
+    border-bottom: 1px solid #c50000;
+    border-top: 1px solid #c50000;
+    height: 5px;
+  background-color:#e53637;
+}
+
+
+
+#mainLanding {
+background-image: url(http://s3-us-west-2.amazonaws.com/techvibes/wp-content/uploads/2017/04/24135159/Netflix-Background.jpg);
+background-size: cover;
+}
+
+header{
+    display: grid;
+    grid-template-areas: "mainLogo" "navBar";
+    grid-template-columns: 1fr 1fr;
+    }
+
+.mainLogo {
+    grid-area: "mainLogo";
+    margin-left: 50px;
+    filter: contrast(100);
+    margin-top: 20px;
+}
+
+.mainLogo img   {
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+
+}
+
+
+
+ul {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+    margin-right: 50px;
+}
+
+li {
+    list-style-type: none;
+}
+
+li a {
+    text-decoration: none;
+    color: white;
+
+}
+
+#selectLanguage {
+    color: rgb(255, 255, 255);
+    border: solid 1px white;
+    background-color: rgba(0, 0, 0, 0.699);
+
+}
+
+.loginBtn {
+    border: solid 2px rgb(255, 52, 52);
+    padding: 5px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: red;
+    border-radius: 3px;
+    cursor: pointer;
+
+}
+
+.mainSection {
+    color: white;
+    margin: auto;
+    margin-top: 150px;
+    text-align: center;
+    width: 50%;
+
+}
+
+.mainText h2 {
+    font-size: 60px;
+
+}
+
+.mainText h3{
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 30px;
+}
+
+.mainText p{
+    margin-top: 2rem;
+    font-size: 20px;
+}
+
+.getStarted {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.mainSection  input {
+    font-size: 15px;
+    padding: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 0px;
+    width: 550px;
+
+}
+
+.mainSection input::placeholder  {
+    font-size: 15px;
+}
+
+.mainSection button {
+    padding: 15px;
+    padding-bottom: 30px;
+    margin-left: 0px;
+    letter-spacing: 1px;
+    background-color: red;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Add this CSS to your stylesheet */
+.card {
+    width: 100%;
+    max-width: 250px; /* Adjust the maximum width as needed */
+}
+
+.card .card-img-top {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop and scale the image to cover the card */
+    max-height: 300px; /* Set a maximum height for the image */
+}
+
+.card .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+/*
+  Inspired from
+  Settings - Daily UI 007
+  by Dillon Morris
+  https://dribbble.com/shots/4290939-Settings-Daily-UI-007
+*/
+
+body,html{
+    height:100%;
+}
+h2{
+    font-weight: bolder;
+    color: #898dbf;
+}
+
+form{
+    width:550px;
+}
+
+form *{
+    font-weight: bold;
+}
+
+form label{
+    font-size: 18px;
+    color:#8f9096;
+}
+
+form .form-control,form .form-control:focus{
+    border-color:transparent;
+    border-bottom-color: #bebcc1;
+    box-shadow:none;
+}
+
+form .btn{
+    border-radius: 0px;
+    border-color: transparent;
+}
+
+.btn.btn-default{
+    background: #ebebeb;
+    color:#8f9096;
+}
+
+.btn.btn-primary{
+    background: #6c63ff;
+    color:white;
+}
+.sidebar {
+    height: 100vh !important;
+    bottom: 0;
+    padding-left:20px;
+    font-size: 1.3rem;
+    background: #6c63ff;
+}
+
+@media screen and (max-width:940px){
+    .sidebar{
+        font-size: 1rem;
+        padding-left :0px;
+    }
+}
+
+
+.sidebar .nav-link{
+    margin-bottom: 20px;
+    color:#dddce5;
+}
+
+.nav-link.active{
+    color:#fff;
+}
+
+.main > .row{
+    height: 100%;
+}
+
+@media screen and (max-width:768px){
+    .content{
+        padding-left:50px;
+        width: 100%;
+        padding-top: 200px;
+        padding-bottom: 50px;
+    }
+
+    form{
+        width: 100%;
+        margin:auto;
+    }
+
+}
+
+.menu {
+    position: absolute;
+    right: 10%;
+    top:30px;
+    margin:auto;
+    display: none;
+    cursor:pointer;
+    z-index: 5;
+    height: 33px;
+    width:30px;
+}
+
+.bar,.bar:after,.bar:before {
+    width:30px;
+    height:3px;
+    background: #6c63ff;
+    transition: all 0.2s;
+}
+
+.bar{
+    position: relative;
+}
+
+.bar:after {
+    position: absolute;
+    content: '';
+    left:0;
+    top:10px;
+    transition: top 0.2s 0.2s,transform 0.2s;
+}
+
+.bar:before {
+    position: absolute;
+    content: '';
+    left:0;
+    bottom:10px;
+    transition: bottom 0.2s 0.2s,transform 0.2s;
+}
+.bar.animate{
+    background: transparent;
+}
+.bar.animate:after{
+    top:0;
+    transform: rotate(45deg);
+    transition: top 0.2s ,transform 0.2s 0.2s;
+    background: #fff;
+}
+
+.bar.animate:before{
+    bottom:0;
+    transform: rotate(-45deg);
+    transition: bottom 0.2s,transform 0.2s  0.2s;
+    background: #fff;
+}
+
+.expand-menu {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    background: #6c63ff;
+    transition: width 0.5s;
+    width: 0%;
+}
+
+.expand-menu .nav-link{
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 20px;
+    color:#dddce5;
+    font-size:1.5rem;
+    display: none;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.expand-menu .nav-link.animate{
+    display: block;
+}
+
+.expand-menu .nav-link.animate-show{
+    opacity:1;
+}
+
+.expand-menu .nav-link.active{
+    color:#fff;
+}
+
+.expand-menu.animate{
+    width : 100%;
+}
+
+.rounded-circle img {
+    border-radius: 50%; /* This makes the image round */
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid main center-content" style="height:35vh;padding-left:290px;">
+    <div class="col-md-9">
+        <div class="container content clear-fix">
+            <h2 class="mt-5 mb-5">Profile Settings</h2>
+
+            <!-- Form for editing user profile -->
+            <form method="post" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="row" style="height:100%">
+                    <div class="col-md-5">
+                        <!-- Profile photo -->
+                        <div class="d-inline rounded-circle overflow-hidden">
+                            {% if profile_form.instance.profile_photo %}
+                            <img src="{{ profile_form.instance.profile_photo.url }}" width="140px" style="margin:0;">
+                            {% else %}
+                                <!-- Default image or placeholder image if user doesn't have a profile picture -->
+                                <img src="https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_1280.png" width="130px" style="margin:0;">
+                            {% endif %}
+                            <br><br>
+                            <!-- Form for uploading profile picture -->
+                            <div class="form-group">
+                                <input type="file" class="form-control-file" name="profile_photo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="container">
+                            <!-- Full Name -->
+                            <div class="form-group">
+                                <label for="first_name">Full Name</label>
+                                <input type="text" class="form-control" value="{{ user_form.instance.first_name }}" name="first_name" required>
+                            </div>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" value="{{ user_form.instance.email }}" name="email" required>
+                            </div>
+                            <!-- Date of Birth -->
+                            <div class="form-group">
+                                <label for="birthday">Birthday(yyy-mm-dd)</label>
+                                <input type="" class="form-control" value="{{ profile_form.initial.date_of_birth }}" name="date_of_birth" id="birthday">
+                            </div>
+                            <!-- Save and Cancel buttons -->
+                            <div class="row mt-5">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'home' %}">
+  <button type="button" class="btn btn-default btn-block">Cancel</button>
+</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+
+{% endblock %}
+
+<script>
+    $(document).ready(function(){
+
+    $('.menu').on('click', function() {
+        $('.bar').toggleClass('animate');
+        $('.expand-menu').toggleClass('animate');
+        $('.expand-menu .nav-link').toggleClass('animate');
+        setTimeout(function(){
+            $('.expand-menu .nav-link').toggleClass('animate-show');
+        },500)
+    })
+
+})
+</script>

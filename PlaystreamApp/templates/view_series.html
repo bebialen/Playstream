@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ view_series.title }}
+{% endblock %}
+
+
+{% block body %}
+<style>
+    body {
+font-family: 'Arial', sans-serif;
+-webkit-font-smoothing: antialiased;
+background: #000;
+color: #999;
+}
+
+.section-title {
+        margin-bottom: 30px;
+    }
+
+.section-title h3 {
+        color: #ffffff;
+        font-weight: 600;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        font-family: "Oswald", sans-serif;
+    }
+
+.section-title h3::after {
+        position: absolute;
+        left: 0;
+        top: -6px;
+        height: 32px;
+        width: 4px;
+        background: #e53637;
+        content: "";
+    }
+.card {
+    width: 100%;
+    max-width: 250px; /* Adjust the maximum width as needed */
+}
+
+.card .card-img-top {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop and scale the image to cover the card */
+    max-height: 300px; /* Set a maximum height for the image */
+}
+
+.card .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+
+</style>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <img width="200" src="{% url 'home' %}media/{{ view_series.poster_image }}">
+        </div>
+        <div class="col">
+            <iframe width="560" height="315" src="{{ view_series.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="container">
+            <h3>{{ view_series.title }}</h3>
+            <p>{{ view_series.description }}</p>
+            <a href="{% url 'series_list' %}" class="btn btn-success">Back to Series List</a>
+                                {% if view_series.post_author == request.user %}
+
+            <div class="btn-group dropend">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Modify
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="{% url 'home' %}edit/series/{{ view_series.id }}">Edit Series</a></li>
+    <li><a class="dropdown-item" href="#" onclick="confirmDelete({{ view_series.id }});">Delete Series</a></li>
+    <li><a class="dropdown-item" href="{% url 'home' %}create/season/{{ view_series.id }}">Create Season</a></li>
+</ul>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endif %}
+
+<div class="container mt-3">
+    {% if seasons %}
+        {% for season in seasons %}
+            <div class="container my-3">
+                <h4>Season {{ season.season_number }}</h4>
+                                {% if view_series.post_author == request.user %}
+
+                <div class="btn-group ms-3">
+                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Modify
+                    </button>
+                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="{% url 'home' %}edit/season/{{ season.id }}">Edit Season</a></li>
+    <li><a class="dropdown-item" href="#" onclick="confirmDeleteSeason({{ season.id }});">Delete Season</a></li>
+    <li><a class="dropdown-item" href="{% url 'home' %}create/episode/{{ view_series.id }}/{{ season.id }}">Create Episode</a></li>
+</ul>
+                </div>
+            </div>
+    {% endif %}
+
+            {% for episode in episodes %}
+                {% if episode.season == season %}
+                    <div class="container my-3">
+    <div class="col-12 col-md-8">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-heading{{ episode.id }}">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ episode.id }}" aria-expanded="false" aria-controls="flush-collapse{{ episode.id }}">
+                        Episode {{ episode.episode_number }}: {{ episode.title }}
+                    </button>
+                </h2>
+                <div id="flush-collapse{{ episode.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ episode.id }}" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body bg-secondary">
+                        <p>{{ episode.description }}</p>
+                        {% if view_series.post_author == request.user %}
+                        <div class="container">
+                            <a href="#" class="btn btn-danger" onclick="confirmDeleteEpisode({{ episode.id }});">Delete Episode</a>
+                            <a href="{% url 'edit_episode' episode.id %}" class="btn btn-secondary">Edit Episode</a><br>
+                        </div>
+                        {% endif %}
+
+                        {% if request.user.is_authenticated %}
+
+                        <div class="container">
+                            <a href="{{ episode.youtube_link }}" class="btn btn-primary watchNowButton" data-episode-id="{{ episode.id }}">Watch Episode</a>
+                        </div>
+                        {% else %}
+                        <div class="container">
+                            <a href="{% url 'register' %}" class="btn btn-primary" style="width: 650px;">Subscribe to Watch Episode</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>No seasons and episodes available for this series.</p>
+    {% endif %}
+</br>
+    {% if not user.groups.all.0.name == "contents" %}
+
+    <div class="section-title">
+                <h3>Suggested Series</h3>
+            </div>
+
+   <div class="row">
+    {% for series in series_with_same_genre %}
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="{{ series.poster_image.url }}" alt="{{ movie.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ series.title }}</h5>
+                    <a href="{% url 'home' %}view_series/{{series.id }}" class="btn btn-secondary">View Series</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+    {% endif %}
+</div>
+
+
+<script>
+    function confirmDelete(seriesId) {
+        if (confirm("Are you sure you want to delete this series?")) {
+            // If the user confirms, navigate to the delete URL
+            window.location.href = "{% url 'home' %}delete/series/" + seriesId;
+        }
+    }
+
+     function confirmDeleteSeason(seasonId) {
+        if (confirm("Are you sure you want to delete this season?")) {
+            // If the user confirms, navigate to the delete URL
+            window.location.href = "{% url 'home' %}delete/season/" + seasonId;
+        }
+    }
+
+     function confirmDeleteEpisode(episodeId) {
+        if (confirm("Are you sure you want to delete this episode?")) {
+            // If the user confirms, navigate to the delete URL
+            window.location.href = "{% url 'home' %}delete/episode/" + episodeId;
+        }
+    }
+
+    document.querySelectorAll('.watchNowButton').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        var episodeId = this.getAttribute('data-episode-id');
+        var addRecentEpisodeUrl = `/add_to_recent_episode/${episodeId}/`;
+
+        // Redirect the user to the YouTube link
+        window.location.href = this.href;
+
+        // Send a background request to add the episode to recent episodes
+        fetch(addRecentEpisodeUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token for security
+            },
+        });
+    });
+});
+</script>
+
+
+{% endblock %}

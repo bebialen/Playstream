@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Add Movie
+{% endblock %}
+
+{% block style %}
+<style>
+.form-container {
+    width: 1070px; /* Set the width of the container */
+    margin: -80px 0 20px 80px ; /* Move the container to the top by setting negative margin-top */
+    padding: 20px; /* Add padding inside the container */
+    border: 1px solid #ccc; /* Add a border around the container */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow for a 3D effect */
+    background-color: white; /* Set the background color to white */
+}
+
+
+/* Optional: Style form elements for consistency */
+.form-container input[type="text"],
+.form-container input[type="file"],
+.form-container select {
+    width: 100%; /* Make form elements fill the container width */
+    margin-bottom: 10px; /* Add spacing between form elements */
+}
+
+/* Add this CSS to style the submit button */
+.form-container button[type="submit"] {
+    background-color: #c1375e; /* Set background color */
+    color: white; /* Set text color */
+    border: none; /* Remove border */
+    padding: 12px 24px; /* Add padding around the text */
+    font-size: 16px; /* Set font size */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+/* Change button background color on hover for a visual feedback */
+.form-container button[type="submit"]:hover {
+    background-color: #35849a; /* Change background color on hover */
+}
+
+.section-title {
+        margin-bottom: 30px;
+    }
+
+    :root {
+  --primary-color: #e50914;
+  --dark-color: #141414;
+  --light-color: #f4f4f4;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+{% load static %}
+  body {
+    font-family: 'Arial', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #000;
+    color: #999;
+    background-color: #5356ad;
+    background-image: url('{% static "images/wal3.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+
+
+    </style>
+{% endblock %}
+{% block body %}
+<div class="form-container">
+  <h1>Create Movie</h1>
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ movie_form|crispy }}
+      <br>
+      <button type="submit">Create Movie</button>
+  </form>
+</div>
+
+
+
+{% endblock %}
+
